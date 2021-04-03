@@ -1,0 +1,2 @@
+init:
+	mix new projectname
