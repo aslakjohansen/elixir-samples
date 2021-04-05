@@ -19,7 +19,9 @@ defmodule KV.Bucket do
     Puts the `balue` for the given `key` in the `bucket`.
     """
     def put(bucket, key, value) do
-        Agent.update(bucket, &Map.put(&1, key, value))
+        Agent.update(bucket, fn state ->
+            Map.put(state, key, value)
+        end)
     end
     
     @doc """
