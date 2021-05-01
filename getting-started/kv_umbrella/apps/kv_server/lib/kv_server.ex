@@ -33,7 +33,8 @@ defmodule KVServer do
         {:ok, data} = :gen_tcp.recv(socket, 0)
         data
     end
-        defp write_line(line, socket) do
-            :gen_tcp.send(socket, line)
-        end
+    
+    defp write_line(line, socket) do
+        :gen_tcp.send(socket, line)
+    end
 end
