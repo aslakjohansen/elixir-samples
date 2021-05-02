@@ -19,3 +19,17 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/kv_server](https://hexdocs.pm/kv_server).
 
+## Testing
+
+Start `bar` with a nonstandard port to avoid conflicts:
+
+```shell
+/elixir-samples//getting-started/kv_umbrella/apps/kv_server$ PORT=4041 iex --sname bar -S mix
+```
+
+Run test as `foo`:
+
+```shell
+/elixir-samples/getting-started/kv_umbrella/apps/kv_server$ elixir --sname foo -S mix test
+```
+
