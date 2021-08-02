@@ -1,4 +1,6 @@
 defmodule Producer do
+    @client_id "mqtt_producer"
+    @topic     "my_topic"
     use GenServer
     
     # behaviour functions
@@ -12,12 +14,19 @@ defmodule Producer do
     @impl true
     def init(_) do
         ref = initiate_countdown(1_000)
+        
+        {:ok, _pid} = Tortoise.Connection.start_link(
+            client_id: @client_id,
+            server: {Tortoise.Transport.Tcp, host: "localhost", port: 1883},
+            handler: {Tortoise.Handler.Logger, []}
+        )
         {:ok, %{ref: ref, counter: 0}}
     end
     
     @impl true
     def handle_info(:timeout, state) do
         counter = Map.get(state, :counter)
+        Tortoise.publish(@client_id, @topic, "{\"counter\": #{counter}}")
         IO.puts("#{DateTime.utc_now()}> #{counter}")
         ref = initiate_countdown(1_000)
         new_state = Map.put(state, :ref, ref)
