@@ -12,14 +12,16 @@ defmodule Producer do
     @impl true
     def init(_) do
         ref = initiate_countdown(1_000)
-        {:ok, %{ref: ref}}
+        {:ok, %{ref: ref, counter: 0}}
     end
     
     @impl true
     def handle_info(:timeout, state) do
-        IO.puts("Timeout called #{DateTime.utc_now()}")
+        counter = Map.get(state, :counter)
+        IO.puts("#{DateTime.utc_now()}> #{counter}")
         ref = initiate_countdown(1_000)
         new_state = Map.put(state, :ref, ref)
+        new_state = Map.put(new_state, :counter, 1+counter)
         {:noreply, new_state}
     end
     
