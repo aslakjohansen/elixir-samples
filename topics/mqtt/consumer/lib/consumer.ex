@@ -19,28 +19,11 @@ defmodule Consumer do
         {:ok, %{}}
     end
     
-    def connection(status, state) do
-        case status do
-            :up -> "Connected"
-            _   -> "Othernected"
-        end
-        |> IO.puts()
-        {:ok, state}
-    end
-    
     def handle_message(topic, payload, state) do
         counter = payload |> Jason.decode!() |> Map.get("counter")
         time = DateTime.utc_now() |> DateTime.to_unix(:nanosecond)
         IO.puts("#{time} #{topic} #{counter}")
         {:ok, state}
-    end
-    
-    def subscription(_status, _topic_filter, state) do
-        {:ok, state}
-    end
-    
-    def terminate(_reason, _state) do
-        :ok
     end
     
     def child_spec(opts) do
@@ -52,5 +35,21 @@ defmodule Consumer do
               shutdown: 500
         }
     end
+    
+#    # these are not necessary
+#    def subscription(_status, _topic_filter, state) do
+#        {:ok, state}
+#    end
+#    def terminate(_reason, _state) do
+#        :ok
+#    end
+#    def connection(status, state) do
+#        case status do
+#            :up -> "Connected"
+#            _   -> "Othernected"
+#        end
+#        |> IO.puts()
+#        {:ok, state}
+#    end
     
 end
