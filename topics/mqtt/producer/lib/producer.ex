@@ -29,9 +29,7 @@ defmodule Producer do
         Tortoise.publish(@client_id, @topic, "{\"counter\": #{counter}}")
         IO.puts("#{DateTime.utc_now()}> #{counter}")
         ref = initiate_countdown(1_000)
-        new_state = Map.put(state, :ref, ref)
-        new_state = Map.put(new_state, :counter, 1+counter)
-        {:noreply, new_state}
+        {:noreply, %{ref: ref, counter: counter+1}}
     end
     
     # helper functions
