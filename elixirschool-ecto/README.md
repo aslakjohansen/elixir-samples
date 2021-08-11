@@ -105,6 +105,26 @@ SELECT m0."tagline" FROM "movies" AS m0 WHERE (m0."title" = $1) ["Ready Player O
  "Something about video games"]
 ```
 
+Classical query:
+```elixir
+iex(52)> alias Friends.Character
+Friends.Character
+iex(53)> query = from m in Movie,
+...(53)>               join: c in Character,
+...(53)>               on: m.id == c.movie_id,
+...(53)>               where: c.name == "Wade Watts",
+...(53)>               select: {m.title, c.name}
+#Ecto.Query<from m0 in Friends.Movie, join: c1 in Friends.Character,
+ on: m0.id == c1.movie_id, where: c1.name == "Wade Watts",
+ select: {m0.title, c1.name}>
+iex(54)> Repo.all(query)
+
+08:15:44.459 [debug] QUERY OK source="movies" db=2.5ms queue=1.6ms idle=1496.1ms
+SELECT m0."title", c1."name" FROM "movies" AS m0 INNER JOIN "characters" AS c1 ON m0."id" = c1."movie_id" WHERE (c1."name" = 'Wade Watts') []
+[{"Ready Player One", "Wade Watts"}, {"Ready Player One", "Wade Watts"}]
+iex(55)> 
+```
+
 # Notes
 
 It would appear that in the many-to-may part of the [associations](https://elixirschool.com/en/lessons/ecto/associations/) lecture the command:
