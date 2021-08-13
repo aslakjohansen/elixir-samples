@@ -15,6 +15,12 @@ postgres=# exit
 $
 ```
 
+# Interactive Project Shell
+
+```console
+iex -S mix
+```
+
 # Querying
 
 Bindingless query:
